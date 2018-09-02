@@ -1,0 +1,20 @@
+<html>
+
+<head>
+    <script src="functions.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <title>A scrapper</title>
+</head>
+
+<body>
+    <div class="flex">
+        <textarea id="in" class="flex-grow-5" placeholder="Source HTML"></textarea>
+        <div class="button-container">
+        <button class="clipboard-button" onclick="copy()">Copy</button>
+        <button class="green-button flex-grow-1" onclick="convert()">--> Convert --></button>
+        </div>
+        <textarea id="out" class="flex-grow-5" placeholder="Converted code will appear here"></textarea>
+    </div>
+</body>
+</html>
