@@ -9,12 +9,15 @@
 
 <body>
     <div class="flex">
-        <textarea id="in" class="flex-grow-5" placeholder="Source HTML"></textarea>
+        <textarea id="in" class="flex-grow-9 dark-border" placeholder="Source HTML"></textarea>
         <div class="button-container">
-        <button class="clipboard-button" onclick="copy()">Copy</button>
-        <button class="green-button flex-grow-1" onclick="convert()">--> Convert --></button>
+            <button class="clipboard-button" onclick="copy()">Copy</button>
+            <div class="flex-grow-20">
+                <button class="green-button flex-grow-1" onclick="convert()">Convert</button>
+            </div>
         </div>
-        <textarea id="out" class="flex-grow-5" placeholder="Converted code will appear here"></textarea>
+        <textarea id="out" class="flex-grow-9 dark-border" placeholder="Converted code will appear here"></textarea>
     </div>
 </body>
+
 </html>

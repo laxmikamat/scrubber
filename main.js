@@ -1,4 +1,4 @@
-var str2DOMElement = function (html) {
+function str2DOMElement(html) {
     var frame = document.createElement('iframe');
     frame.style.display = 'none';
     document.body.appendChild(frame);
@@ -22,10 +22,9 @@ function copy() {
     copyToClipboard(out);
 }
 
-function clearSelection()
-{
- if (window.getSelection) {window.getSelection().removeAllRanges();}
- else if (document.selection) {document.selection.empty();}
+function clearSelection() {
+    if (window.getSelection) { window.getSelection().removeAllRanges(); }
+    else if (document.selection) { document.selection.empty(); }
 }
 
 function copyToClipboard(ctrl) {
