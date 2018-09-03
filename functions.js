@@ -88,21 +88,22 @@ function attributesUtility(node, config) {
   let attrs = node.attributes;
   let newNode = node.cloneNode(false);
   if (attrs && attrs.length) {
-    for (var i = 0; i < attrs.length - 1; i++) {
-      if (attrs[i].name == 'class') {
-        continue;
-      }
-      newNode.removeAttribute(attrs[i].name);
-      if (config) {
-        if (config.keepAttributesWithValue && config.keepAttributesWithValue.indexOf(attrs[i].name) !== -1) {
-          newNode.setAttribute(attrs[i].name, attrs[i].value);
-        } else if (config.keepAttributes && config.keepAttributes.indexOf(attrs[i].name) !== -1) {
-          newNode.setAttribute(attrs[i].name, '');
+    for (var i = 0; i < attrs.length ; i++) {
+      if (attrs[i].name != 'class') {
+        newNode.removeAttribute(attrs[i].name);
+        if (config) {
+          if (config.keepAttributesWithValue && config.keepAttributesWithValue.indexOf(attrs[i].name) !== -1) {
+            console.log(config.keepAttributesWithValue.indexOf(attrs[i].name));
+            newNode.setAttribute(attrs[i].name, attrs[i].value);
+          } else if (config.keepAttributes && config.keepAttributes.indexOf(attrs[i].name) !== -1) {
+            console.log(config.keepAttributesWithValue.indexOf(attrs[i].name));
+            newNode.setAttribute(attrs[i].name, '');
+          }
         }
       }
     }
+    return newNode;
   }
-  return newNode;
 }
 function bootstrapUtility(node, config, common) {
   let cll = node.classList;
@@ -184,7 +185,4 @@ let config = {
   '*': {
   }
 }
-
-
-
 
