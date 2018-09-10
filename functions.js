@@ -93,17 +93,15 @@ function attributesUtility(node, config) {
         newNode.removeAttribute(attrs[i].name);
         if (config) {
           if (config.keepAttributesWithValue && config.keepAttributesWithValue.indexOf(attrs[i].name) !== -1) {
-            console.log(config.keepAttributesWithValue.indexOf(attrs[i].name));
             newNode.setAttribute(attrs[i].name, attrs[i].value);
           } else if (config.keepAttributes && config.keepAttributes.indexOf(attrs[i].name) !== -1) {
-            console.log(config.keepAttributesWithValue.indexOf(attrs[i].name));
             newNode.setAttribute(attrs[i].name, '');
           }
         }
       }
     }
-    return newNode;
   }
+  return newNode;
 }
 function bootstrapUtility(node, config, common) {
   let cll = node.classList;
@@ -159,7 +157,7 @@ function buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstra
   }
 }
 function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
-  if (!node)
+  if (!node || node.nodeType === Node.COMMENT_NODE)
     return document.createTextNode('');
   if (elementMap[node.nodeName.toLowerCase()]) {
     let newNode = document.createElement(elementMap[node.nodeName.toLowerCase()].component);
