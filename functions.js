@@ -84,8 +84,8 @@ let diff = {
   'col-sm-': 'col-md-',
 };
 let common = ["form-group", "active", "alert-danger", "alert-dismissible", "close", "alert-info", "alert-link", "alert-success", "alert-warning", "badge", "bg-danger", "bg-info", "bg-primary", "bg-success", "bg-warning", "breadcrumb", "btn", "btn-block", "btn-danger", "btn-group", "btn-group-lg", "btn-group-sm", "btn-group-vertical", "btn-info", "btn-link", "btn-lg", "btn-primary", "btn-sm", "btn-success", "btn-warning", "carousel", "carousel-caption", "carousel-indicators", "carousel-inner", "clearfix", "collapse", "container", "container-fluid", "disabled", "dropdown", "dropdown-header", "dropdown-menu", "dropdown-menu-right", "dropdown-toggle", "dropup", "embed-responsive", "embed-responsive-16by9", "embed-responsive-4by3", "embed-responsive-item", "fade", "form-control", "form-group", "form-inline", "h1 - .h6", "img-thumbnail", "initialism", "input-group", "input-group-lg", "input-group-sm", "input-lg", "input-sm", "invisible", "jumbotron", "lead", "list-group", "list-group-item", "list-group-item-danger", "list-group-item-info", "list-group-item-success", "list-group-item-warning", "list-inline", "list-unstyled", "mark", "media", "media-body", "modal", "modal-body", "modal-content", "modal-footer", "modal-header", "modal-lg", "modal-sm", "nav nav-tabs", "nav nav-pills", "nav-justified", "navbar", "navbar-brand", "navbar-collapse", "navbar-nav", "navbar-text", "pagination", "pagination-lg", "pagination-sm", "pre-scrollable", "progress", "progress-bar", "progress-bar-striped", "row", "small", "sr-only", "sr-only-focusable", "tab-content", "tab-pane", "table", "table-bordered", "table-condensed", "table-hover", "text-capitalize", "text-center", "text-danger", "text-hide", "text-info", "text-justify", "text-left", "text-lowercase", "text-muted", "text-nowrap", "text-primary", "text-right", "text-success", "text-uppercase", "text-warning"];
-function attributesUtility(node, config) {
-  let attrs = node.attributes;
+function attributesUtility(originalNode, node, config) {
+  let attrs = originalNode.attributes;
   let newNode = node.cloneNode(false);
   if (attrs && attrs.length) {
     for (var i = 0; i < attrs.length ; i++) {
@@ -161,26 +161,38 @@ function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
     return document.createTextNode('');
   if (elementMap[node.nodeName.toLowerCase()]) {
     let newNode = document.createElement(elementMap[node.nodeName.toLowerCase()].component);
-    newNode = bootstrapUtility(attributesUtility(newNode, elementMap[node.nodeName.toLowerCase()]), bootstrapMap, commonBootstrapClasses);
-    buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
+    newNode = attributesUtility(node, newNode, elementMap[node.nodeName.toLowerCase()]);
+    if(elementMap[node.nodeName.toLowerCase()].component.upgradeBootstrap) {
+      newNode = bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses);
+    }
+    if(elementMap[node.nodeName.toLowerCase()].component.buildChildren) {
+      buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
+    }
     return newNode;
   } else if (node.nodeName.toLowerCase().includes("app")) {
     return document.createComment("// TODO " + node.nodeName.toLowerCase());
   } else {
     let newNode = node.cloneNode(false);
-    newNode = attributesUtility(bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses), config);
+    newNode = attributesUtility(node, bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses), undefined);
     buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
     return newNode;
   }
 }
 
 let config = {
-  'legacy-component': {
-    component: 'df-component',
-    keepAttributes: ['a1', 'a2'],
-    keepAttributesWithValue: ['a3', 'a4']
+  'button': {
+    component: 'df-button',
+    upgradeBootstrap: false,
+    buildChildren: false,
+    keepAttributes: [],
+    keepAttributesWithValue: ['type'],
   },
-  '*': {
+  'df-select': {
+    component: 'df-select',
+    upgradeBootstrap: false,
+    buildChildren: false,
+    keepAttributes: [],
+    keepAttributesWithValue: [],
   }
 }
 
