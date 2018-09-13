@@ -23,8 +23,11 @@ function copy() {
 }
 
 function clearSelection() {
-    if (window.getSelection) { window.getSelection().removeAllRanges(); }
-    else if (document.selection) { document.selection.empty(); }
+    if (window.getSelection) {
+        window.getSelection().removeAllRanges();
+    } else if (document.selection) {
+        document.selection.empty();
+    }
 }
 
 function copyToClipboard(ctrl) {

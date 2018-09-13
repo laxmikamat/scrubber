@@ -169,6 +169,16 @@ function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
       buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
     }
     return newNode;
+  } else if (elementMap[xPathFor(node)]) {
+    let newNode = document.createElement(elementMap[xPathFor(node)].component);
+    newNode = attributesUtility(node, newNode, elementMap[node.nodeName.toLowerCase()]);
+    if(elementMap[node.nodeName.toLowerCase()].component.upgradeBootstrap) {
+      newNode = bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses);
+    }
+    if(elementMap[node.nodeName.toLowerCase()].component.buildChildren) {
+      buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
+    }
+    return newNode;
   } else if (node.nodeName.toLowerCase().includes("app")) {
     return document.createComment("// TODO " + node.nodeName.toLowerCase());
   } else {
