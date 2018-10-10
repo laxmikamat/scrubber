@@ -12,6 +12,7 @@ function str2DOMElement(html) {
 
 function convert() {
     var inp = document.getElementById('in').value;
+    inp = "<div>" + inp + "</div>";
     let res = replace(str2DOMElement(inp), config, diff, common);
     var out = document.getElementById('out');
     out.value = res.outerHTML;
