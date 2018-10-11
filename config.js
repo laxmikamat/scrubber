@@ -8,7 +8,7 @@ var config = {
         let ths = node.getElementsByTagName('th');
         let out = '<df-grid>';
         for (var i = 0; i < ths.length; i++) {
-          out += '<df-grid-column field="" header="Header"></df-grid-column>'.replace('Header', ths[i].innerText);
+          out += '<df-grid-column field="Field" header="Header"></df-grid-column>'.replace('Header', ths[i].innerText).replace('Field', camelize(ths[i].innerText));
         }
         out += '</df-grid>';
         return htmlToElement(out);
