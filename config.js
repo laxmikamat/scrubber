@@ -20,7 +20,7 @@ var config = {
       keepAttributes: [],
       keepAttributesWithValue: [],
       func: function (node) {
-        return htmlToElement('<df-input-container><input type="' + node.type + '"></df-input-container>');
+        return htmlToElement('<df-input-container><input type="' + node.type + '"' + 'value="' + node.value +'"></df-input-container>');
       },
     },
     'button': {
