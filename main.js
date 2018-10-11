@@ -15,7 +15,8 @@ function convert() {
     inp = "<div>" + inp + "</div>";
     let res = replace(str2DOMElement(inp), config, diff, common);
     var out = document.getElementById('out');
-    out.value = res.outerHTML;
+    let outS = res.outerHTML.toString();
+    out.value = outS.substring(5, outS.length - 6);
 }
 
 function copy() {
