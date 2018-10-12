@@ -23,13 +23,6 @@ var config = {
         return htmlToElement('<df-input-container><input type="' + node.type + '"' + 'value="' + node.value +'"></df-input-container>');
       },
     },
-    'button': {
-      component: 'df-button',
-      upgradeBootstrap: false,
-      buildChildren: false,
-      keepAttributes: [],
-      keepAttributesWithValue: [],
-    },
     'select': {
       component: 'df-select',
       upgradeBootstrap: false,
