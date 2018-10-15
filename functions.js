@@ -1,4 +1,4 @@
-let diff = {
+var diff = {
 
   '@media (min-width: $screen-xs-min) and (max-width: $screen-sm-max)': '@media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, xs))',
   '@media (min-width: $screen-xs) and (max-width: ($screen-md-min - 1))': '@media (min-width: map-get($grid-breakpoints, xs)) and (max-width: map-get($grid-breakpoints, md)-1)',
@@ -83,12 +83,12 @@ let diff = {
   'col-md-': 'col-lg-',
   'col-sm-': 'col-md-',
 };
-let common = ["form-group", "active", "alert-danger", "alert-dismissible", "close", "alert-info", "alert-link", "alert-success", "alert-warning", "badge", "bg-danger", "bg-info", "bg-primary", "bg-success", "bg-warning", "breadcrumb", "btn", "btn-block", "btn-danger", "btn-group", "btn-group-lg", "btn-group-sm", "btn-group-vertical", "btn-info", "btn-link", "btn-lg", "btn-primary", "btn-sm", "btn-success", "btn-warning", "carousel", "carousel-caption", "carousel-indicators", "carousel-inner", "clearfix", "collapse", "container", "container-fluid", "disabled", "dropdown", "dropdown-header", "dropdown-menu", "dropdown-menu-right", "dropdown-toggle", "dropup", "embed-responsive", "embed-responsive-16by9", "embed-responsive-4by3", "embed-responsive-item", "fade", "form-control", "form-group", "form-inline", "h1 - .h6", "img-thumbnail", "initialism", "input-group", "input-group-lg", "input-group-sm", "input-lg", "input-sm", "invisible", "jumbotron", "lead", "list-group", "list-group-item", "list-group-item-danger", "list-group-item-info", "list-group-item-success", "list-group-item-warning", "list-inline", "list-unstyled", "mark", "media", "media-body", "modal", "modal-body", "modal-content", "modal-footer", "modal-header", "modal-lg", "modal-sm", "nav nav-tabs", "nav nav-pills", "nav-justified", "navbar", "navbar-brand", "navbar-collapse", "navbar-nav", "navbar-text", "pagination", "pagination-lg", "pagination-sm", "pre-scrollable", "progress", "progress-bar", "progress-bar-striped", "row", "small", "sr-only", "sr-only-focusable", "tab-content", "tab-pane", "table", "table-bordered", "table-condensed", "table-hover", "text-capitalize", "text-center", "text-danger", "text-hide", "text-info", "text-justify", "text-left", "text-lowercase", "text-muted", "text-nowrap", "text-primary", "text-right", "text-success", "text-uppercase", "text-warning"];
+var common = ["form-group", "active", "alert-danger", "alert-dismissible", "close", "alert-info", "alert-link", "alert-success", "alert-warning", "badge", "bg-danger", "bg-info", "bg-primary", "bg-success", "bg-warning", "breadcrumb", "btn", "btn-block", "btn-danger", "btn-group", "btn-group-lg", "btn-group-sm", "btn-group-vertical", "btn-info", "btn-link", "btn-lg", "btn-primary", "btn-sm", "btn-success", "btn-warning", "carousel", "carousel-caption", "carousel-indicators", "carousel-inner", "clearfix", "collapse", "container", "container-fluid", "disabled", "dropdown", "dropdown-header", "dropdown-menu", "dropdown-menu-right", "dropdown-toggle", "dropup", "embed-responsive", "embed-responsive-16by9", "embed-responsive-4by3", "embed-responsive-item", "fade", "form-control", "form-group", "form-inline", "h1 - .h6", "img-thumbnail", "initialism", "input-group", "input-group-lg", "input-group-sm", "input-lg", "input-sm", "invisible", "jumbotron", "lead", "list-group", "list-group-item", "list-group-item-danger", "list-group-item-info", "list-group-item-success", "list-group-item-warning", "list-inline", "list-unstyled", "mark", "media", "media-body", "modal", "modal-body", "modal-content", "modal-footer", "modal-header", "modal-lg", "modal-sm", "nav nav-tabs", "nav nav-pills", "nav-justified", "navbar", "navbar-brand", "navbar-collapse", "navbar-nav", "navbar-text", "pagination", "pagination-lg", "pagination-sm", "pre-scrollable", "progress", "progress-bar", "progress-bar-striped", "row", "small", "sr-only", "sr-only-focusable", "tab-content", "tab-pane", "table", "table-bordered", "table-condensed", "table-hover", "text-capitalize", "text-center", "text-danger", "text-hide", "text-info", "text-justify", "text-left", "text-lowercase", "text-muted", "text-nowrap", "text-primary", "text-right", "text-success", "text-uppercase", "text-warning"];
 function attributesUtility(originalNode, node, config) {
   let attrs = originalNode.attributes;
-  let newNode = node.cloneNode(false);
+  let newNode = node.cloneNode(true);
   if (attrs && attrs.length) {
-    for (var i = 0; i < attrs.length ; i++) {
+    for (var i = 0; i < attrs.length; i++) {
       if (attrs[i].name != 'class') {
         newNode.removeAttribute(attrs[i].name);
         if (config) {
@@ -108,7 +108,7 @@ function bootstrapUtility(node, config, common) {
   if (!cll) {
     return node;
   }
-  let newNode = node.cloneNode(false);
+  let newNode = node.cloneNode(true);
   for (i = 0; i < cll.length; i++) {
     let cl = cll[i];
     if (common && common.indexOf(cl) > -1) {
@@ -149,24 +149,34 @@ function bootstrapUtility(node, config, common) {
   return newNode;
 }
 function buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses) {
+  let _newNode = newNode.cloneNode(false);
   if (node.hasChildNodes()) {
     var children = node.childNodes;
+    let _childNode = '';
     for (var i = 0; i < children.length; i++) {
-      newNode.appendChild(replace(children[i], elementMap, bootstrapMap, commonBootstrapClasses));
+      _childNode = replace(children[i], elementMap, bootstrapMap, commonBootstrapClasses);
+      _newNode.appendChild(_childNode);
     }
   }
+  return _newNode;
 }
 function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
-  if (!node || node.nodeType === Node.COMMENT_NODE)
+  console.log(node.nodeName);
+  if (!node || node.nodeType === Node.COMMENT_NODE || node.nodeName.toLowerCase().indexOf('script') >= 0)
     return document.createTextNode('');
   if (elementMap[node.nodeName.toLowerCase()]) {
-    let newNode = document.createElement(elementMap[node.nodeName.toLowerCase()].component);
-    newNode = attributesUtility(node, newNode, elementMap[node.nodeName.toLowerCase()]);
-    if(elementMap[node.nodeName.toLowerCase()].component.upgradeBootstrap) {
+    let newNode = '';
+    if (elementMap[node.nodeName.toLowerCase()].func) {
+      newNode = elementMap[node.nodeName.toLowerCase()].func(node);
+    } else {
+      newNode = document.createElement(elementMap[node.nodeName.toLowerCase()].component);
+      newNode = attributesUtility(node, newNode, elementMap[node.nodeName.toLowerCase()]);
+    }
+    if (elementMap[node.nodeName.toLowerCase()].upgradeBootstrap) {
       newNode = bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses);
     }
-    if(elementMap[node.nodeName.toLowerCase()].component.buildChildren) {
-      buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
+    if (elementMap[node.nodeName.toLowerCase()].buildChildren) {
+      newNode = buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
     }
     return newNode;
   } else if (node.nodeName.toLowerCase().includes("app")) {
@@ -174,25 +184,19 @@ function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
   } else {
     let newNode = node.cloneNode(false);
     newNode = attributesUtility(node, bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses), undefined);
-    buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
+    newNode = buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
     return newNode;
   }
 }
-
-let config = {
-  'button': {
-    component: 'df-button',
-    upgradeBootstrap: false,
-    buildChildren: false,
-    keepAttributes: [],
-    keepAttributesWithValue: ['type'],
-  },
-  'df-select': {
-    component: 'df-select',
-    upgradeBootstrap: false,
-    buildChildren: false,
-    keepAttributes: [],
-    keepAttributesWithValue: [],
-  }
+function htmlToElement(html) {
+  var template = document.createElement('template');
+  html = html.trim(); // Never return a text node of whitespace as the result
+  template.innerHTML = html;
+  return template.content.firstChild;
 }
 
+function camelize(str) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+    return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+  }).replace(/\s+/g, '');
+}
