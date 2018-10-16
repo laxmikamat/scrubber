@@ -162,7 +162,7 @@ function buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstra
 }
 function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
   console.log(node.nodeName);
-  if (!node || node.nodeType === Node.COMMENT_NODE || node.nodeName.toLowerCase().indexOf('script') >= 0)
+  if (!node || node.nodeType === Node.COMMENT_NODE || node.nodeName.toLowerCase().indexOf('script') >= 0 || node.nodeName.toLowerCase().indexOf('style') >= 0)
     return document.createTextNode('');
   if (elementMap[node.nodeName.toLowerCase()]) {
     let newNode = '';
