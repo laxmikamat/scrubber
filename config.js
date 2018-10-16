@@ -2,8 +2,8 @@ var config = {
   'table': {
     upgradeBootstrap: false,
     buildChildren: false,
-    keepAttributes: ['click'],
-    keepAttributesWithValue: ['class'],
+    keepAttributes: [],
+    keepAttributesWithValue: [],
     func: function (node) {
       let ths = node.getElementsByTagName('th');
       let out = '<df-grid>';
