@@ -45,6 +45,18 @@
     cursor: pointer;
     flex-grow:1;
 }
+.main-button {
+    background-color: blueviolet;
+    border: none;
+    color: white;
+    padding: 0px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    flex-grow:1;
+}
 .dark-border {
     border: 2px solid darkslategray;
 }
