@@ -160,8 +160,43 @@ function buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstra
   }
   return _newNode;
 }
+function compare(key, node) {
+  let values = key.split('::');
+
+  if (node.nodeName.toLowerCase() !== values[0].toLowerCase()) {
+    return false;
+  }
+
+  value.splice(0,1);
+
+  for (let i = 0; i < values.length; i++) {
+    let keyValuePair = values[i].split('=');
+    let attrName = keyValuePair[0];
+    let attrValueArray = keyValuePair[1].replace("'", "").split(' ');
+    if(!node.getAttribute(attrName)) {
+      return false;
+    }
+    for (let j = 0; j < attrValueArray.length ; j++ ) {
+      if(!node.getAttribute(attrName).indexOf(attrValueArray[j]) < 0) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+function matchElem(node, elementMap) {
+  let keyToReturn = '';
+  Object.keys(elementMap).some(el => {
+    if(compare(el, node)) {
+      keyToReturn = el;
+      return true;
+    }
+    return false;
+  });
+
+  return keyToReturn;
+}
 function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
-  console.log(node.nodeName);
   if (!node || node.nodeType === Node.COMMENT_NODE || node.nodeName.toLowerCase().indexOf('script') >= 0 || node.nodeName.toLowerCase().indexOf('style') >= 0)
     return document.createTextNode('');
   if (elementMap[node.nodeName.toLowerCase()]) {
