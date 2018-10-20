@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <script src="config.js"></script>
+    <script src="functions.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <title>Converter</title>
+</head>
+
+<body>
+    <div class="">
+        <a class="main-button active" id="converterDivShowButton" onclick="showDiv('converterDiv')">Converter</a>
+        <a class="main-button" id="keyDivShowButton" onclick="showDiv('keyDiv')">Key Creator</a>
+    </div>
+    <div id="converterDiv" class="flex">
+        <textarea id="in" class="flex-grow-9 dark-border" placeholder="Source HTML"></textarea>
+        <div class="button-container">
+            <button class="clipboard-button" onclick="copy()">Copy</button>
+            <div class="flex-grow-20">
+                <button class="green-button flex-grow-1" onclick="convert()">Convert</button>
+            </div>
+        </div>
+        <textarea id="out" class="flex-grow-9 dark-border" placeholder="Converted code will appear here"></textarea>
+    </div>
+    <div id="keyDiv" class="flex">
+        <textarea id="key_in" class="flex-grow-9 dark-border" placeholder="Node"></textarea>
+        <div class="button-container">
+            <button class="clipboard-button" onclick="key_copy()">Copy</button>
+            <div class="flex-grow-20">
+                <button class="green-button flex-grow-1" onclick="key_convert()">Generate Key</button>
+            </div>
+        </div>
+        <textarea id="key_out" class="flex-grow-9 dark-border" placeholder="Created key will appear here"></textarea>
+    </div>
+</body>
+
+</html>

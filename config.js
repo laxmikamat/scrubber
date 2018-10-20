@@ -31,7 +31,6 @@ var config = {
     keepAttributesWithValue: [],
   },
   'option': {
-    component: 'df-option',
     upgradeBootstrap: false,
     buildChildren: false,
     keepAttributes: [],
@@ -39,6 +38,13 @@ var config = {
     func: function(node) {
       return htmlToElement('<df-option value="' + node.innerText + '" ' + 'displayText="'+ node.innerText + '"></df-input-container>');
     }
+  },
+  'div::id="mainLeaderboard"::style="overflow:hidden;"': {
+    component: 'df-panel',
+    upgradeBootstrap: false,
+    buildChildren: false,
+    keepAttributes: [],
+    keepAttributesWithValue: [],
   },
 }
 

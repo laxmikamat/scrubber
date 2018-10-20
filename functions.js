@@ -161,18 +161,20 @@ function buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstra
   return _newNode;
 }
 function compare(key, node) {
+  if (key.indexOf('::') < 0) {
+    return false;
+  }
   let values = key.split('::');
-
   if (node.nodeName.toLowerCase() !== values[0].toLowerCase()) {
     return false;
   }
 
-  value.splice(0,1);
+  values.splice(0,1);
 
   for (let i = 0; i < values.length; i++) {
     let keyValuePair = values[i].split('=');
     let attrName = keyValuePair[0];
-    let attrValueArray = keyValuePair[1].replace("'", "").split(' ');
+    let attrValueArray = keyValuePair[1].replace('"', '').split(' ');
     if(!node.getAttribute(attrName)) {
       return false;
     }
@@ -199,18 +201,23 @@ function matchElem(node, elementMap) {
 function replace(node, elementMap, bootstrapMap, commonBootstrapClasses) {
   if (!node || node.nodeType === Node.COMMENT_NODE || node.nodeName.toLowerCase().indexOf('script') >= 0 || node.nodeName.toLowerCase().indexOf('style') >= 0)
     return document.createTextNode('');
-  if (elementMap[node.nodeName.toLowerCase()] || matchElem(node, elementMap)) {
+  let keyMatched = matchElem(node, elementMap);
+  if (elementMap[node.nodeName.toLowerCase()] || keyMatched.length > 0) {
     let newNode = '';
-    if (elementMap[node.nodeName.toLowerCase()].func) {
-      newNode = elementMap[node.nodeName.toLowerCase()].func(node);
-    } else {
-      newNode = document.createElement(elementMap[node.nodeName.toLowerCase()].component);
-      newNode = attributesUtility(node, newNode, elementMap[node.nodeName.toLowerCase()]);
+    let key = node.nodeName.toLowerCase();  
+    if (keyMatched.length > 0) {
+      key = keyMatched;
     }
-    if (elementMap[node.nodeName.toLowerCase()].upgradeBootstrap) {
+    if (elementMap[key].func) {
+      newNode = elementMap[key].func(node);
+    } else {
+      newNode = document.createElement(elementMap[key].component);
+      newNode = attributesUtility(node, newNode, elementMap[key]);
+    }
+    if (elementMap[key].upgradeBootstrap) {
       newNode = bootstrapUtility(newNode, bootstrapMap, commonBootstrapClasses);
     }
-    if (elementMap[node.nodeName.toLowerCase()].buildChildren) {
+    if (elementMap[key].buildChildren) {
       newNode = buildChildNodes(node, newNode, elementMap, bootstrapMap, commonBootstrapClasses);
     }
     return newNode;
