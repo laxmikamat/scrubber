@@ -71,7 +71,7 @@ function showDiv(toShowId) {
     keyDiv.style.display = "none";
 
     converterDivShowButton.classList.remove('active');
-    keyDiv.classList.remove('active');
+    keyDivShowButton.classList.remove('active');
 
     if (toShowId === 'converterDiv') {
         converterDiv.style.display = 'flex';

@@ -4,6 +4,7 @@
 }
 .active {
     text-decoration: underline !important;
+    background-color: #0e2e69 !important;
 }
 .flex-grow-9 {
     flex-grow: 9;
